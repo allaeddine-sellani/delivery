@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Store and Items</title>
+</head>
+<body>
+    <h1>Add Store and Items</h1>
+    <form id="dynamic-form" method="post">
+        {% csrf_token %}
+        {{ store_form.as_p }}
+        {{ item_formset.management_form }}
+        <table id="item-table">
+            {% for form in item_formset %}
+                {{ form.as_table }}
+            {% endfor %}
+        </table>
+        <button type="button" id="add-item">Add Item</button>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{% url 'menu' %}">Menu</a>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-item').addEventListener('click', function() {
+                var formCount = document.getElementById('id_form-TOTAL_FORMS').value;
+                var table = document.getElementById('item-table');
+                var newRow = document.createElement('tr');
+                newRow.innerHTML = '{{ item_formset.empty_form.as_table|escapejs }}'.replace(/__prefix__/g, formCount);
+                table.appendChild(newRow);
+                document.getElementById('id_form-TOTAL_FORMS').value = parseInt(formCount) + 1;
+            });
+        });
+    </script>
+</body>
+</html>

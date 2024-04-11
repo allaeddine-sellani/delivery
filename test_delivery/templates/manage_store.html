@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Stores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        a.add-button, button.edit-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button.edit-button {
+            margin-left: 10px; /* Add margin to separate button from select */
+        }
+        select {
+            padding: 8px;
+            border-radius: 5px;
+        }
+        button.edit-button:hover, a.add-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manage Stores</h1>
+    <a href="{% url 'add_store' %}" class="add-button">Add Store</a>
+    <form method="get">
+        <select name="store_id" onchange="this.form.action='/manage_stores/edit/' + this.value + '/';">
+            <option value="">-</option>
+            {% for store in stores %}
+                <option value="{{ store.id }}">{{ store.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="edit-button">Edit Selected Store</button>
+    </form>
+    <a href="{% url 'menu' %}">Menu</a>
+</body>
+</html>
+
